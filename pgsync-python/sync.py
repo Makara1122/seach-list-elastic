@@ -128,7 +128,7 @@ def connect_to_postgres():
 
 def connect_to_elasticsearch():
     """Returns Elasticsearch bulk URL and headers."""
-    return 'http://152.42.163.114:9200/makara-tester-v2/_bulk', {"Content-Type": "application/x-ndjson"}
+    return 'http://0.0.0.0:9200/makara-tester-v2/_bulk', {"Content-Type": "application/x-ndjson"}
 
 def fetch_all_data(pg_conn):
     """Fetch all user details from PostgreSQL."""
