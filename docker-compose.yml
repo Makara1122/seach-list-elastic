@@ -3,16 +3,22 @@ version: '3.8'
 services:
   kak_bank:
     container_name: 'spring-boot-app'
+    depends_on:
+      - elasticsearch
     build:
       context: .
       dockerfile: Dockerfile
-    restart: always
+#    restart: always
     environment:
-      - TZ=Asia/Bangkok
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
     ports:
-      - '8888:8080'
+      - '8080:8080'
     volumes:
       - '/D:/Spring/sprind-data-jpa/myproject:/home/ite/media'
+    networks:
+      - elastic
 
 
   kibana:
