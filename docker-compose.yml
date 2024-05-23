@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  kak_bank:
+    container_name: 'spring-boot-app'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - TZ=Asia/Bangkok
+    ports:
+      - '8888:8080'
+    volumes:
+      - '/D:/Spring/sprind-data-jpa/myproject:/home/ite/media'
+
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.16.2
+    container_name: kibana
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+#      - ELASTICSEARCH_PASSWORD=changeme
+      - xpack.monitoring.ui.container.elasticsearch.enabled=true
+    ports:
+      - "5601:5601"
+    networks:
+      - elastic
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - elastic
+
+
+  pgsync-python:
+    build: ./pgsync-python
+    container_name: pgsync-python
+    depends_on:
+
+      - elasticsearch
+
+    volumes:
+      - ./pgsync-python:/app
+    networks:
+      - elastic
+
+volumes:
+  esdata:
+networks:
+  elastic:
+    driver: bridge
