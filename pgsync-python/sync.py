@@ -128,7 +128,7 @@ def connect_to_postgres():
 
 def connect_to_elasticsearch():
     """Returns Elasticsearch bulk URL and headers."""
-    return 'http://0.0.0.0:9200/makara-tester-v2/_bulk', {"Content-Type": "application/x-ndjson"}
+    return 'http://elasticsearch:9200/makara-tester-v2/_bulk', {"Content-Type": "application/x-ndjson"}
 
 def fetch_all_data(pg_conn):
     """Fetch all user details from PostgreSQL."""
@@ -155,7 +155,7 @@ def format_data(rows):
     for row in rows:
         action = {
             "index": {
-                "_index": "makara-tester-v2",
+                "_index": "ifealhappy",
                 "_id": row['id']
             }
         }
