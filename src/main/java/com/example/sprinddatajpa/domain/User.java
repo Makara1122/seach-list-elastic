@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "user_tbl")
-@Document(indexName = "makara-tester-v2")
+@Document(indexName = "ifeelhappy")
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 public class User {

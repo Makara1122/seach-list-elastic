@@ -82,8 +82,8 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ELASTICSEARCH_URL=http://0.0.0.0:9200
-      - ELASTICSEARCH_HOSTS=http://0.0.0.0:9200
+      - ELASTICSEARCH_URL=http://152.42.163.114:9200
+      - ELASTICSEARCH_HOSTS=http://152.42.163.114:9200
       - ELASTICSEARCH_USERNAME=elastic
     ports:
       - '8888:8080'
@@ -98,8 +98,8 @@ services:
     depends_on:
       - elasticsearch
     environment:
-      - ELASTICSEARCH_URL=http://0.0.0.0:9200
-      - ELASTICSEARCH_HOSTS=http://0.0.0.0:9200
+      - ELASTICSEARCH_URL=http://152.42.163.114:9200
+      - ELASTICSEARCH_HOSTS=http://152.42.163.114:9200
       - ELASTICSEARCH_USERNAME=elastic
       - xpack.monitoring.ui.container.elasticsearch.enabled=true
     ports:
