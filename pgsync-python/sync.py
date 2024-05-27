@@ -119,7 +119,7 @@ logger = logging.getLogger(__name__)
 def connect_to_postgres():
     """Establishes a PostgreSQL connection."""
     return psycopg2.connect(
-        dbname="makara-tester",
+        dbname="makara-tester-v5",
         user="postgres",
         password="qwerty",
         host="152.42.163.114",  # Using Docker service name
@@ -128,21 +128,16 @@ def connect_to_postgres():
 
 def connect_to_elasticsearch():
     """Returns Elasticsearch bulk URL and headers."""
-    return 'http://elasticsearch:9200/makara-tester-v2/_bulk', {"Content-Type": "application/x-ndjson"}
+    return 'http://elasticsearch:9200/new_user_makara_index/_bulk', {"Content-Type": "application/x-ndjson"}
 
 def fetch_all_data(pg_conn):
     """Fetch all user details from PostgreSQL."""
     try:
         with pg_conn.cursor(cursor_factory=DictCursor) as cursor:
             cursor.execute("""
-                SELECT
-                    bt.id,
-                    bt.name,
-                    at.name AS role_name
-                FROM user_tbl bt
-                JOIN user_role_tbl abt ON bt.id = abt.user_id
-                JOIN role_tbl at ON abt.role_id = at.id
-                ORDER BY bt.id ASC;  -- Ensuring a consistent order
+                SELECT u.id, u.name, r.name as role
+                FROM user_tbl u JOIN  user_role_tbl ur ON  ur.user_id = u.id JOIN role_tbl r ON ur.role_id = r.id
+                ORDER BY u.id ASC  -- Ensuring a consistent order
             """)
             return cursor.fetchall()
     except Exception as e:
@@ -155,7 +150,7 @@ def format_data(rows):
     for row in rows:
         action = {
             "index": {
-                "_index": "ifealhappy",
+                "_index": "new_user_makara_index",
                 "_id": row['id']
             }
         }
